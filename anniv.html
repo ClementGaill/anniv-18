@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>18 Ans de [Ton Prénom]</title>
+  <title>18 Ans de Clément aka la Star</title>
   <style>
     @font-face {
         font-family: 'Avenir';
@@ -19,7 +19,7 @@
 
     body {
       font-family: 'Avenir', sans-serif;
-      background: linear-gradient(to right, #ece9e6, #ffffff);
+      background: #A4C8E1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -51,14 +51,14 @@
       font-size: 1em;
       border: none;
       border-radius: 8px;
-      background-color: #007BFF;
+      background-color: #0084D4;
       color: white;
       cursor: pointer;
       transition: background-color 0.3s;
     }
 
     .buttons button:hover {
-      background-color: #0056b3;
+      background-color: #003865;
     }
 
     @media (min-width: 600px) {
@@ -73,7 +73,7 @@
             flex-direction: row;
         }
         .buttons button {
-            font-size: 0.7em;
+            font-size: 1em;
         }
     }
 
@@ -98,43 +98,41 @@
     <audio id="trainSound" src="SNCF.wav"></audio>
     <img id="logo" src="sncf-logo.svg" alt="SNCF Logo" style="width: 100px; position: absolute; z-index: -1;">
 
-  <h1>Mes 18 ans 🎉</h1>
+  <h1>18 ans du GOAT !! 🎉 !!</h1>
   <h2>Rendez-vous le 11 octobre 2025 pour une soirée inoubliable !</h2>
 
   <div class="buttons">
-    <button onclick="window.location.href='formulaire.html'">Accéder au formulaire</button>
-    <button onclick="alert('Tu as annulé ta venue 😢')">Annuler sa venue</button>
-    <button onclick="window.location.href='https://www.leetchi.com/'">Cagnotte pour l'alcool 🍻</button>
+    <button onclick="window.location.href='https://forms.gle/vBRZb1e4AjDhGm24A'">Accéder au formulaire</button>
   </div>
 
   <img src="https://www.sncf-connect.com/staticsTrainComposition/TGVReseau%E2%80%94Lacroix_firstToSecond_carmillon_8C.png" alt="Train" class="train" id="train">
 
 </body>
 <script>
-  function playSoundRandomly() {
-    const minDelay = 30 * 1000; // 30 secondes
-    const maxDelay = 180 * 1000; // 3 minutes
+  // Personnalise ici les délais (en millisecondes)
+  const minDelay = 60 * 1000; // 30 secondes
+  const maxDelay = 120 * 1000; // 45 secondes
 
+  function playSoundRandomly() {
     const delay = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
 
     setTimeout(() => {
       const audio = document.getElementById('trainSound');
       audio.play().catch(e => {
-        // Certains navigateurs bloquent l'autoplay
         console.warn('Lecture bloquée : interaction utilisateur requise');
       });
 
-      // Reboucle pour un autre lancement
+      // Reboucle
       playSoundRandomly();
     }, delay);
   }
 
-  // Lance dès que la page est prête
+  // Démarre dès que la page est chargée
   window.addEventListener('DOMContentLoaded', playSoundRandomly);
 </script>
+
 <script>
   const logo = document.getElementById('logo');
-  const colors = ['#d70000', '#0078d7', '#00a859', '#ff9900', '#6f00ff'];
 
   let posX = 100;
   let posY = 100;
@@ -167,19 +165,10 @@
     const touchingTop = posY <= 0;
     const touchingBottom = posY + logoHeight >= windowHeight;
 
-    if ((touchingLeft || touchingRight) && (touchingTop || touchingBottom)) {
-      changeColor();
-    }
-
     logo.style.left = `${posX}px`;
     logo.style.top = `${posY}px`;
 
     requestAnimationFrame(moveLogo);
-  }
-
-  function changeColor() {
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    logo.style.filter = `brightness(0) saturate(100%) invert(0%) sepia(100%) saturate(7500%) hue-rotate(${Math.random() * 360}deg)`;
   }
 
   moveLogo();
