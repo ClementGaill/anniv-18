@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>18 Ans de [Ton Prénom]</title>
+  <style>
+    @font-face {
+        font-family: 'Avenir';
+        src: url('./Avenir.ttf') format('ttf'), url('./Avenir.ttf') format('ttf');
+        font-weight: normal;
+        font-style: normal;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Avenir', sans-serif;
+      background: linear-gradient(to right, #ece9e6, #ffffff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 0.2em;
+    }
+
+    h2 {
+      font-size: 0.7em;
+      margin-bottom: 1.5em;
+      color: #444;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .buttons button {
+      padding: 15px 25px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #007BFF;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .buttons button:hover {
+      background-color: #0056b3;
+    }
+
+    @media (min-width: 600px) {
+        h1 {
+            font-size: 3em;
+            margin-bottom: 0.2em;
+        }
+        h2 {
+            font-size: 1.5em;
+        }
+        .buttons {
+            flex-direction: row;
+        }
+        .buttons button {
+            font-size: 0.7em;
+        }
+    }
+
+    .train {
+        position: absolute;
+        bottom: 0;
+        animation: trainMove 35s linear infinite;
+        z-index: 999;
+    }
+
+    @keyframes trainMove {
+        0% {
+        transform: translateX(-250px);
+        }
+        100% {
+        transform: translateX(120vw);
+        }
+    }
+  </style>
+</head>
+<body>
+    <audio id="trainSound" src="SNCF.wav"></audio>
+    <img id="logo" src="sncf-logo.svg" alt="SNCF Logo" style="width: 100px; position: absolute; z-index: -1;">
+
+  <h1>Mes 18 ans 🎉</h1>
+  <h2>Rendez-vous le 11 octobre 2025 pour une soirée inoubliable !</h2>
+
+  <div class="buttons">
+    <button onclick="window.location.href='formulaire.html'">Accéder au formulaire</button>
+    <button onclick="alert('Tu as annulé ta venue 😢')">Annuler sa venue</button>
+    <button onclick="window.location.href='https://www.leetchi.com/'">Cagnotte pour l'alcool 🍻</button>
+  </div>
+
+  <img src="https://www.sncf-connect.com/staticsTrainComposition/TGVReseau%E2%80%94Lacroix_firstToSecond_carmillon_8C.png" alt="Train" class="train" id="train">
+
+</body>
+<script>
+  function playSoundRandomly() {
+    const minDelay = 30 * 1000; // 30 secondes
+    const maxDelay = 180 * 1000; // 3 minutes
+
+    const delay = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
+
+    setTimeout(() => {
+      const audio = document.getElementById('trainSound');
+      audio.play().catch(e => {
+        // Certains navigateurs bloquent l'autoplay
+        console.warn('Lecture bloquée : interaction utilisateur requise');
+      });
+
+      // Reboucle pour un autre lancement
+      playSoundRandomly();
+    }, delay);
+  }
+
+  // Lance dès que la page est prête
+  window.addEventListener('DOMContentLoaded', playSoundRandomly);
+</script>
+<script>
+  const logo = document.getElementById('logo');
+  const colors = ['#d70000', '#0078d7', '#00a859', '#ff9900', '#6f00ff'];
+
+  let posX = 100;
+  let posY = 100;
+  let velocityX = 2;
+  let velocityY = 2;
+
+  const logoWidth = 100;
+  const logoHeight = 50;
+
+  function moveLogo() {
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    posX += velocityX;
+    posY += velocityY;
+
+    // Collision horizontale
+    if (posX + logoWidth >= windowWidth || posX <= 0) {
+      velocityX *= -1;
+    }
+
+    // Collision verticale
+    if (posY + logoHeight >= windowHeight || posY <= 0) {
+      velocityY *= -1;
+    }
+
+    // Coin
+    const touchingLeft = posX <= 0;
+    const touchingRight = posX + logoWidth >= windowWidth;
+    const touchingTop = posY <= 0;
+    const touchingBottom = posY + logoHeight >= windowHeight;
+
+    if ((touchingLeft || touchingRight) && (touchingTop || touchingBottom)) {
+      changeColor();
+    }
+
+    logo.style.left = `${posX}px`;
+    logo.style.top = `${posY}px`;
+
+    requestAnimationFrame(moveLogo);
+  }
+
+  function changeColor() {
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    logo.style.filter = `brightness(0) saturate(100%) invert(0%) sepia(100%) saturate(7500%) hue-rotate(${Math.random() * 360}deg)`;
+  }
+
+  moveLogo();
+</script>
+
+</html>

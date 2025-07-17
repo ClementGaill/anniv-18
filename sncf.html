@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .train-board {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #003b5c;
+  color: white;
+  font-family: 'Avenir', sans-serif;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.train-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-bottom: 1px solid #005f73;
+}
+
+.train-row:last-child {
+  border-bottom: none;
+}
+
+.train-time,
+.train-info,
+.train-platform,
+.train-status {
+  flex: 1;
+  text-align: center;
+}
+
+.train-status {
+  font-weight: bold;
+}
+
+.train-status.delayed {
+  color: #f39c12;
+}
+
+.train-status.cancelled {
+  color: #e74c3c;
+}
+
+    </style>
+</head>
+<body>
+    <div class="train-board">
+    <div class="train-row">
+        <span class="train-time">14:10</span>
+        <span class="train-info">TGV 8371 - Lyon Part-Dieu</span>
+        <span class="train-platform">Voie 6</span>
+        <span class="train-status">À l’heure</span>
+    </div>
+    <div class="train-row">
+        <span class="train-time">14:24</span>
+        <span class="train-info">TER 8452 - Nantes</span>
+        <span class="train-platform">Voie 3</span>
+        <span class="train-status delayed">Retard 5 min</span>
+    </div>
+    <div class="train-row">
+        <span class="train-time">14:40</span>
+        <span class="train-info">TGV 8245 - Paris Montparnasse</span>
+        <span class="train-platform">Voie 1</span>
+        <span class="train-status cancelled">Annulé</span>
+    </div>
+    </div>
+
+</body>
+</html>
