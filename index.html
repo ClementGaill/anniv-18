@@ -1,136 +1,177 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=850, initial-scale=0.5">
-    <title>Départs gare SNCF Paris Gare du Nord en temps réel</title>
-    <link rel="stylesheet" href="css/ecran.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>18 Ans de Clément aka la Star</title>
+  <style>
+    @font-face {
+        font-family: 'Avenir';
+        src: url('./Avenir.ttf') format('ttf'), url('./Avenir.ttf') format('ttf');
+        font-weight: normal;
+        font-style: normal;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <link rel="icon" type="image/webp" href="images/icon.webp">
-    <link rel="icon" type="image/png" href="images/icon.png">
-    <link href="images/icon.png" rel="apple-touch-icon" type="image/png">
+    body {
+      font-family: 'Avenir', sans-serif;
+      background: #A4C8E1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-    <!--<link rel="manifest" href="/manifest.json" />-->
-    <meta name="publisher" content="Astuces Web">
-    <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#2165ac">
-    <meta name="apple-mobile-web-app-title" content="Départs Paris Gare du Nord">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-touch-fullscreen" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="application-name" content="Départs Paris Gare du Nord">
-    <meta name="msapplication-TileColor" content="#2165ac">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta name="og:site_name" content="Départs Paris Gare du Nord">
-    <meta property="og:url" content="https://astucesweb.fr/projets/sncf/departs/PNO/">
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://astucesweb.fr/projets/sncf/departs/PNO/">
-    <link rel="canonical" href="https://astucesweb.fr/projets/sncf/departs/PNO/">
+    h1 {
+      font-size: 2em;
+      margin-bottom: 0.2em;
+    }
 
-    <meta http-equiv="Content-Language" content="fr">
-    <meta name="title" content="Départs gare SNCF Paris Gare du Nord en temps réel">
-    <meta property="og:title" content="Départs gare SNCF Paris Gare du Nord en temps réel">
-    <meta property="twitter:title" content="Départs gare SNCF Paris Gare du Nord en temps réel">
-    <meta name="description"
-        content="Consultez les Departures en temps réel à la gare SNCF Paris Gare du Nord comme sur les écrans en gare. Horaires, retards, trains, correspondances, trafic, circulation, etc.">
-    <meta property="og:description"
-        content="Consultez les Departures en temps réel à la gare SNCF Paris Gare du Nord comme sur les écrans en gare. Horaires, retards, trains, correspondances, trafic, circulation, etc.">
-    <meta property="twitter:description"
-        content="Consultez les Departures en temps réel à la gare SNCF Paris Gare du Nord comme sur les écrans en gare. Horaires, retards, trains, correspondances, trafic, circulation, etc.">
-    <meta name="keywords" lang="fr"
-        content="gare, SNCF, gare Paris Gare du Nord, Départs Paris Gare du Nord, Departures Paris Gare du Nord, Partenze  Paris Gare du Nord">
-    <!-- Google tag (gtag.js) -->
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-D456J1NDNY"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
+    h2 {
+      font-size: 0.7em;
+      margin-bottom: 1.5em;
+      color: #444;
+    }
 
-        gtag('config', 'G-D456J1NDNY');
-    </script>
-    <script async="" src="js/adsbygoogle.js" crossorigin="anonymous"></script>
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .buttons button {
+      padding: 15px 25px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #0084D4;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .buttons button:hover {
+      background-color: #003865;
+    }
+
+    @media (min-width: 600px) {
+        h1 {
+            font-size: 3em;
+            margin-bottom: 0.2em;
+        }
+        h2 {
+            font-size: 1.5em;
+        }
+        .buttons {
+            flex-direction: row;
+        }
+        .buttons button {
+            font-size: 1em;
+        }
+    }
+
+    .train {
+        position: absolute;
+        bottom: 0;
+        animation: trainMove 35s linear infinite;
+        z-index: 999;
+    }
+
+    @keyframes trainMove {
+        0% {
+        transform: translateX(-250px);
+        }
+        100% {
+        transform: translateX(120vw);
+        }
+    }
+  </style>
 </head>
+<body>
+    <audio id="trainSound" src="SNCF.wav"></audio>
+    <img id="logo" src="sncf-logo.svg" alt="SNCF Logo" style="width: 100px; position: absolute; z-index: -1;">
 
-<body class="screen">
-    <div class="board-container">
-        <div class="header">
-            <div class="title">Départs Paris Gare du Nord</div>
-            <div class="subtitle">
-                Departures <span class="dot"></span>
-                Partenze </div>
-        </div>
-        <div class="board">
-            <div class="trains">
-                <div class="train">
-                    <div class="train-line">
-                        <div class="train-type">
-                            <!--?xml version="1.0" encoding="UTF-8"?-->
-                            <svg viewBox="0 0 211.4 110.8" width="211.4" height="110.8" version="1.1"
-                                xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
-                                <title>SNCF logo (2011)</title>
-                                <defs>
-                                    <linearGradient id="vlpa" x2="1"
-                                        gradientTransform="matrix(168.9 0 0 -168.9 118.1 67.38)"
-                                        gradientUnits="userSpaceOnUse">
-                                        <stop style="stop-color:#7c2270" offset="0"></stop>
-                                        <stop style="stop-color:#aa147e" offset=".2472"></stop>
-                                        <stop style="stop-color:#e41d25" offset=".8146"></stop>
-                                        <stop style="stop-color:#e41d25" offset="1"></stop>
-                                    </linearGradient>
-                                    <clipPath id="vlpb">
-                                        <path d="m0 0h311.8v510.2h-311.8z"></path>
-                                    </clipPath>
-                                </defs>
-                                <g transform="matrix(1.25 0 0 -1.25 -147.6 77.75)">
-                                    <path
-                                        d="m121.2 61.99c-1.882-0.07905-3.105-0.9486-3.105-2.808v-82.9c0-1.445 1.035-2.752 2.631-2.752h148c1.329 0 2.39 0.1205 3.015 1.875 0 0 15 46.94 15.26 47.79 0.5571 1.773 0.1957 2.673-1.317 3.636-48.2 30.89-120.3 35.37-153 35.37-4.694 0-8.571-0.0941-11.47-0.2108"
-                                        style="fill:url(PNO.html#vlpa)"></path>
-                                    <g transform="matrix(3.764 0 0 3.764 -793.9 -171.9)" style="stroke-width:.2657">
-                                        <g clip-path="url(#vlpb)" style="stroke-width:.2657">
-                                            <g transform="translate(267.3 44.78)" style="stroke-width:.2657">
-                                                <path
-                                                    d="m0 0c-0.55 0.641-0.768 1.468-0.632 2.39 0.324 2.199 2.464 3.589 5.327 3.589 0.603 0 1.224-0.038 1.782-0.109l0.566 1.659c-0.69 0.106-1.526 0.151-2.346 0.151-2.539 0-4.747-0.874-6.178-2.415-0.045-0.048-0.091-0.047-0.119-0.047-0.044 0-0.074 8e-3 -0.062 0.047l0.717 2.249h-2.096l-2.294-7.197c-0.73 2.124-2.232 4.917-4.069 7.197h-2.251l-1.683-5.239c0.846-0.629 1.114-1.083 1.335-1.729 0.013-0.038 0.04-0.046 0.081-0.046s0.061 0.01 0.072 0.046c0.016 0.05 1.468 4.553 1.468 4.553 1.481-2.119 2.951-4.907 3.739-7.851h2.414l1.194 3.73c0.013 0.038 0.039 0.046 0.079 0.046 0.042 0 0.069-0.011 0.074-0.046 0.363-2.342 2.692-3.916 5.993-3.916 2.134 0 4.063 0.56 4.543 0.817l1.251 3.94h4.804l0.489 1.526h-4.805l0.829 2.587h5.725l0.499 1.582h-8.042l-2.73-8.533c-0.579-0.146-1.295-0.218-2.043-0.218-1.611 0-2.901 0.383-3.631 1.237m-13.56 5.939 0.478 1.503c-0.687 0.126-1.178 0.191-1.998 0.21-2.636 0.061-5.019-0.666-5.632-2.206-0.726-1.826 1.334-2.853 3.119-3.699 1.417-0.672 2.537-1.311 2.143-2.148-0.306-0.649-1.309-0.957-2.767-0.924-1.263 0.03-2.838 0.392-4.079 1.017l-0.738-1.596c0.913-0.424 2.795-1 4.401-1.037 3.016-0.069 4.969 0.69 5.751 2.332 0.925 1.944-1.37 3.007-3.213 3.897-1.443 0.697-2.427 1.061-2.19 1.762 0.28 0.83 1.731 1.145 3.046 1.115 0.665-0.016 1.138-0.101 1.679-0.226"
-                                                    style="fill:#fff"></path>
-                                            </g>
-                                        </g>
-                                    </g>
-                                </g>
-                            </svg>
-                        </div>
-                        <div class="train-infos">
-                            <div style="display:none" class="train-status normal">à l'heure</div>
-                            <div class="train-number">TER HDF<br><span class="number">K10</span></div>
-                        </div>
-                        <div class="train-time">22h26</div>
-                        <div class="train-destination">Anniversaire du GOAT</div>
-                    </div>
-                </div>
+  <h1>18 ans du GOAT !! 🎉 !!</h1>
+  <h2>Rendez-vous le 11 octobre 2025 pour une soirée inoubliable !</h2>
 
-                <div class="overlay">
-                    départs </div>
-            </div>
-            <div class="bottom">
-                <div class="scrolling-text">
-                    <div class="text">
-                        <div class="item">
-                        </div>
-                    </div>
-                </div>
-                <p class="clock">
-                    <span id="hours">00</span><span id="deuxpoints">:</span><span id="minutes">00</span><span
-                        id="seconds">00</span>
-                </p>
-            </div>
-        </div>
-    </div><br>
-    <script src="js/gsap.min.js"></script>
-    <script src="js/ecran.js"></script>
+  <div class="buttons">
+    <button onclick="window.location.href='https://forms.gle/vBRZb1e4AjDhGm24A'">Accéder au formulaire</button>
+  </div>
 
+  <img src="https://www.sncf-connect.com/staticsTrainComposition/TGVReseau%E2%80%94Lacroix_firstToSecond_carmillon_8C.png" alt="Train" class="train" id="train">
 
 </body>
+<script>
+  // Personnalise ici les délais (en millisecondes)
+  const minDelay = 60 * 1000; // 30 secondes
+  const maxDelay = 120 * 1000; // 45 secondes
+
+  function playSoundRandomly() {
+    const delay = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
+
+    setTimeout(() => {
+      const audio = document.getElementById('trainSound');
+      audio.play().catch(e => {
+        console.warn('Lecture bloquée : interaction utilisateur requise');
+      });
+
+      // Reboucle
+      playSoundRandomly();
+    }, delay);
+  }
+
+  // Démarre dès que la page est chargée
+  window.addEventListener('DOMContentLoaded', playSoundRandomly);
+</script>
+
+<script>
+  const logo = document.getElementById('logo');
+
+  let posX = 100;
+  let posY = 100;
+  let velocityX = 2;
+  let velocityY = 2;
+
+  const logoWidth = 100;
+  const logoHeight = 50;
+
+  function moveLogo() {
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    posX += velocityX;
+    posY += velocityY;
+
+    // Collision horizontale
+    if (posX + logoWidth >= windowWidth || posX <= 0) {
+      velocityX *= -1;
+    }
+
+    // Collision verticale
+    if (posY + logoHeight >= windowHeight || posY <= 0) {
+      velocityY *= -1;
+    }
+
+    // Coin
+    const touchingLeft = posX <= 0;
+    const touchingRight = posX + logoWidth >= windowWidth;
+    const touchingTop = posY <= 0;
+    const touchingBottom = posY + logoHeight >= windowHeight;
+
+    logo.style.left = `${posX}px`;
+    logo.style.top = `${posY}px`;
+
+    requestAnimationFrame(moveLogo);
+  }
+
+  moveLogo();
+</script>
 
 </html>
